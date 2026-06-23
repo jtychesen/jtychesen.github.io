@@ -8,45 +8,56 @@
   <style>
     :root {
       --bg: #031225;
-      --bg-2: #061a33;
-      --card: rgba(11, 31, 58, 0.78);
-      --card-2: rgba(255, 255, 255, 0.06);
+      --bg2: #061a33;
       --text: rgba(255,255,255,0.96);
-      --muted: rgba(255,255,255,0.78);
+      --muted: rgba(255,255,255,0.86);
       --accent: #d6ad67;
       --line: rgba(255,255,255,0.08);
-      --radius: 26px;
-      --shadow: 0 20px 50px rgba(0,0,0,0.28);
+      --radius: 24px;
     }
 
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
       margin: 0;
-      min-height: 100vh;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
       background:
-        radial-gradient(circle at top right, rgba(19, 72, 124, 0.28), transparent 34%),
-        linear-gradient(180deg, #041122 0%, #031225 40%, #04152a 100%);
+        radial-gradient(circle at top right, rgba(19, 72, 124, 0.26), transparent 34%),
+        linear-gradient(180deg, #041122 0%, #031225 52%, #04152a 100%);
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
 
-    .wrap {
+    body {
+      padding:
+        calc(env(safe-area-inset-top) + 10px)
+        12px
+        calc(env(safe-area-inset-bottom) + 10px);
+    }
+
+    .page {
       width: 100%;
-      max-width: 860px;
+      max-width: 460px;
       margin: 0 auto;
-      padding: calc(env(safe-area-inset-top) + 20px) 18px calc(env(safe-area-inset-bottom) + 28px);
+      height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 20px);
+      display: grid;
+      grid-template-rows: minmax(0, 1fr) 21svh;
+      gap: 12px;
     }
 
     .hero {
       position: relative;
-      min-height: 74svh;
-      border-radius: 28px;
+      min-height: 0;
       overflow: hidden;
-      box-shadow: var(--shadow);
+      border-radius: 24px;
       background: #0d223f;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.28);
     }
 
     .hero img {
@@ -56,7 +67,6 @@
       height: 100%;
       object-fit: cover;
       object-position: center center;
-      filter: saturate(1.02);
     }
 
     .hero::after {
@@ -64,8 +74,8 @@
       position: absolute;
       inset: 0;
       background:
-        linear-gradient(90deg, rgba(2, 12, 24, 0.76) 0%, rgba(2, 12, 24, 0.48) 38%, rgba(2, 12, 24, 0.12) 100%),
-        linear-gradient(180deg, rgba(2, 12, 24, 0.06) 0%, rgba(2, 12, 24, 0.05) 56%, rgba(2, 12, 24, 0.78) 100%);
+        linear-gradient(90deg, rgba(2,12,24,0.78) 0%, rgba(2,12,24,0.46) 42%, rgba(2,12,24,0.10) 100%),
+        linear-gradient(180deg, rgba(2,12,24,0.05) 0%, rgba(2,12,24,0.10) 54%, rgba(2,12,24,0.58) 100%);
     }
 
     .hero-inner {
@@ -75,165 +85,79 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 22px 20px 24px;
+      padding: 14px 14px 16px;
     }
 
     .eyebrow {
       color: var(--accent);
-      font-size: 0.92rem;
+      font-size: 0.82rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       font-weight: 600;
+      margin-bottom: 4px;
     }
 
     h1 {
       margin: 0;
-      max-width: 12ch;
-      font-size: clamp(2.7rem, 7vw, 4.8rem);
-      line-height: 0.98;
-      letter-spacing: -0.05em;
-      font-weight: 600;
+      max-width: 9ch;
+      font-size: clamp(2.25rem, 8.6vw, 3.6rem);
+      line-height: 0.97;
+      letter-spacing: -0.055em;
+      font-weight: 650;
     }
 
-    .accent { color: var(--accent); }
+    .accent {
+      color: var(--accent);
+    }
 
     .subcopy {
-      margin-top: 18px;
-      max-width: 28ch;
-      font-size: clamp(1.05rem, 2.8vw, 1.35rem);
-      line-height: 1.45;
+      margin-top: 12px;
+      max-width: 18ch;
+      font-size: clamp(0.94rem, 3.3vw, 1.08rem);
+      line-height: 1.33;
       color: var(--muted);
       font-weight: 400;
     }
 
-    .hero-bottom {
+    .mini-card {
       align-self: start;
-      max-width: min(92%, 520px);
-      padding: 14px 16px;
-      border: 1px solid rgba(255,255,255,0.12);
+      max-width: min(100%, 420px);
+      padding: 12px 14px;
       border-radius: 18px;
-      background: rgba(10, 27, 51, 0.64);
+      background: rgba(10, 27, 51, 0.68);
+      border: 1px solid rgba(255,255,255,0.10);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      box-shadow: 0 14px 34px rgba(0,0,0,0.18);
+      box-shadow: 0 14px 34px rgba(0,0,0,0.16);
     }
 
-    .hero-bottom p {
+    .mini-card p {
       margin: 0;
-      font-size: 1rem;
-      line-height: 1.45;
-      color: rgba(255,255,255,0.92);
+      font-size: 0.98rem;
+      line-height: 1.38;
+      color: rgba(255,255,255,0.93);
     }
 
-    .grid-section {
-      margin-top: 18px;
-      display: grid;
-      grid-template-columns: 170px 1fr;
-      gap: 20px;
-      align-items: start;
-    }
-
-    .side-note {
-      padding: 18px 0 0;
-    }
-
-    .mini-line {
-      width: 58px;
-      height: 2px;
-      border-radius: 999px;
-      background: var(--accent);
-      opacity: 0.95;
-      margin-bottom: 18px;
-    }
-
-    .side-note h2 {
-      margin: 0 0 12px;
-      color: var(--accent);
-      font-size: 0.96rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      font-weight: 600;
-    }
-
-    .side-note p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.55;
-    }
-
-    .feature-card {
-      display: block;
-      overflow: hidden;
-      border-radius: var(--radius);
-      background: var(--card-2);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-    }
-
-    .feature-card img {
-      display: block;
-      width: 100%;
-      aspect-ratio: 16/9;
-      object-fit: cover;
-      object-position: center;
-    }
-
-    .thumbs {
-      margin-top: 18px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 18px;
-    }
-
-    .thumb {
+    .feature {
       overflow: hidden;
       border-radius: 22px;
-      background: var(--card-2);
       border: 1px solid var(--line);
-      box-shadow: var(--shadow);
+      background: rgba(255,255,255,0.05);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.22);
+      min-height: 0;
     }
 
-    .thumb img {
-      display: block;
+    .feature img {
       width: 100%;
-      aspect-ratio: 4 / 5;
+      height: 100%;
+      display: block;
       object-fit: cover;
-    }
-
-    .thumb.t1 img { object-position: left center; }
-    .thumb.t2 img { object-position: center center; }
-    .thumb.t3 img { object-position: 60% center; }
-
-    .footer-space { height: 8px; }
-
-    @media (max-width: 720px) {
-      .wrap { padding-left: 14px; padding-right: 14px; }
-      .hero { min-height: 68svh; border-radius: 24px; }
-      .hero-inner { padding: 18px 16px 18px; }
-      h1 { font-size: clamp(2.4rem, 11vw, 4rem); max-width: 10ch; }
-      .subcopy { font-size: 1.02rem; max-width: 26ch; }
-      .grid-section {
-        grid-template-columns: 1fr;
-        gap: 14px;
-      }
-      .side-note { padding-top: 10px; }
-      .thumbs { gap: 12px; }
-      .thumb { border-radius: 18px; }
-    }
-
-    @media (max-width: 480px) {
-      .hero { min-height: 62svh; }
-      .hero-inner { padding: 16px 14px 16px; }
-      .hero-bottom { max-width: calc(100% - 10px); padding: 12px 14px; }
-      .hero-bottom p { font-size: 0.98rem; }
-      .side-note p { font-size: 0.98rem; }
-      .thumbs { grid-template-columns: repeat(3, 1fr); }
+      object-position: center;
     }
   </style>
 </head>
 <body>
-  <main class="wrap">
+  <main class="page">
     <section class="hero" aria-label="Vibeke surprise page hero">
       <img src="assets/terrasse.png" alt="Terrasse ved sjøen på Karmøy" />
       <div class="hero-inner">
@@ -241,43 +165,26 @@
           <div class="eyebrow">Til Vibeke</div>
           <h1>
             Fra denne<br>
-            terassen kan vi<br>
+            terrassen kan vi<br>
             <span class="accent">bokstavelig talt</span><br>
             <span class="accent">hoppe utti sjøen!</span>
           </h1>
+
           <p class="subcopy">
             Dette blir final destination av turen,<br>
             resten av reisen booker vi sammen ;)
           </p>
         </div>
 
-        <div class="hero-bottom">
+        <div class="mini-card">
           <p>To netter på Karmøy er booket. Resten setter vi opp sammen.</p>
         </div>
       </div>
     </section>
 
-    <section class="grid-section" aria-label="Karmøy images">
-      <aside class="side-note">
-        <div class="mini-line"></div>
-        <h2>Karmøy</h2>
-        <p>Utsikt, sjø og ro.<br>Nøyaktig det vi trenger.</p>
-      </aside>
-
-      <div>
-        <div class="feature-card">
-          <img src="assets/karmoy_aerial.png" alt="Luftbilde av Karmøy" />
-        </div>
-
-        <div class="thumbs">
-          <div class="thumb t1"><img src="assets/terrasse.png" alt="Terrassen" /></div>
-          <div class="thumb t2"><img src="assets/terrasse.png" alt="Utsikt over vannet" /></div>
-          <div class="thumb t3"><img src="assets/karmoy_aerial.png" alt="Karmøy sjøutsikt" /></div>
-        </div>
-      </div>
+    <section class="feature" aria-label="Karmøy view">
+      <img src="assets/karmoy_aerial.png" alt="Luftbilde av Karmøy" />
     </section>
-
-    <div class="footer-space"></div>
   </main>
 </body>
 </html>
